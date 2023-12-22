@@ -1,10 +1,11 @@
-import { NetworkStatus, gql, useQuery } from "@apollo/client";
+import { NetworkStatus, gql, useApolloClient, useQuery } from "@apollo/client";
 import { BlockStack, Button, List, Text } from "@shopify/polaris";
 
 const GET_MOVIES = gql`
   query ListMovies {
     movies {
       title
+      id
     }
   }
 `;
@@ -54,12 +55,27 @@ export function Home() {
 }
 
 function Child() {
-  const { data } = useQuery<{
+  // const { data } = useQuery<{
+  //   movies: { title: string }[];
+  // }>(GET_MOVIES, {
+  //   fetchPolicy: "network-only",
+  //   notifyOnNetworkStatusChange: true,
+  // });
+
+  const client = useApolloClient();
+  const data = client.readQuery<{
     movies: { title: string }[];
-  }>(GET_MOVIES, {
-    fetchPolicy: "network-only",
-    notifyOnNetworkStatusChange: true,
+  }>({
+    query: gql`
+      query ListMovies {
+        movies {
+          id
+        }
+      }
+    `,
   });
+
+  console.log("data", data);
 
   return data ? <Text as="p">Total count: {data.movies.length}</Text> : null;
 }
