@@ -14,7 +14,7 @@ export function Home() {
     GET_MOVIES,
     {
       fetchPolicy: "network-only",
-    }
+    },
   );
 
   if (loading) return <p>Loading...</p>;

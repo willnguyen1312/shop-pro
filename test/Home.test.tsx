@@ -47,7 +47,7 @@ function setup() {
       <AppProvider i18n={enTranslations}>
         <Home />
       </AppProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 }
 
