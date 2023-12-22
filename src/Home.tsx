@@ -1,32 +1,42 @@
-import { Text } from "@shopify/polaris";
-import { useEffect } from "react";
+import { gql, useQuery } from "@apollo/client";
+import { BlockStack, List, Text } from "@shopify/polaris";
+
+const GET_MOVIES = gql`
+  query ListMovies {
+    movies {
+      title
+    }
+  }
+`;
 
 export function Home() {
-  useEffect(() => {
-    fetch(new URL("/graphql", location.href), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-          query ListMovies {
-            movies {
-              title
-            }
-          }
-        `,
-      }),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-  }, []);
+  const { loading, error, data } = useQuery<{ movies: { title: string }[] }>(
+    GET_MOVIES,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  if (!data) {
+    return null;
+  }
+
+  const { movies } = data;
 
   return (
-    <Text as="h1" variant="headingLg">
-      Hello Shop 💳
-    </Text>
+    <BlockStack gap="400">
+      <Text as="h1" variant="headingLg">
+        Hello Shop 💳
+      </Text>
+
+      <List type="bullet">
+        {movies.map((movie) => {
+          return <List.Item key={movie.title}>{movie.title}</List.Item>;
+        })}
+      </List>
+    </BlockStack>
   );
 }
