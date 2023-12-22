@@ -17,7 +17,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const handlers = [
   graphql.query("ListMovies", async () => {
-    await sleep(1000);
+    await sleep(100);
 
     // Generate sample title using faker
     const title = faker.lorem.words();
