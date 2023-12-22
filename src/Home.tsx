@@ -52,9 +52,7 @@ export function Home() {
 
       <Button
         onClick={async () => {
-          const newMovie = await addMovie();
-
-          console.log("newMovie", newMovie);
+          await addMovie();
         }}
       >
         Add Movie
@@ -101,8 +99,6 @@ function Child() {
       }
     `,
   });
-
-  console.log("data", data);
 
   return data ? <Text as="p">Total count: {data.movies.length}</Text> : null;
 }
