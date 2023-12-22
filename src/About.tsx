@@ -1,7 +1,9 @@
+import { Text } from "@shopify/polaris";
+
 export function About() {
   return (
-    <>
-      <h1>About shop 🙈</h1>
-    </>
+    <Text as="h1" variant="headingLg">
+      About shop 🙈
+    </Text>
   );
 }

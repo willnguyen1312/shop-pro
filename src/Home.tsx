@@ -1,3 +1,4 @@
+import { Text } from "@shopify/polaris";
 import { useEffect } from "react";
 
 export function Home() {
@@ -24,8 +25,8 @@ export function Home() {
   }, []);
 
   return (
-    <>
-      <h1>Hello Shop 💳</h1>
-    </>
+    <Text as="h1" variant="headingLg">
+      Hello Shop 💳
+    </Text>
   );
 }
