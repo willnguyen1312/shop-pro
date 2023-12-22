@@ -1,10 +1,19 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
 import { AppProvider } from "@shopify/polaris";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { Link, Outlet } from "react-router-dom";
 
-const client = new ApolloClient({
+const link = new HttpLink({
   uri: "/graphql",
+});
+
+const client = new ApolloClient({
+  link,
   cache: new InMemoryCache(),
 });
 

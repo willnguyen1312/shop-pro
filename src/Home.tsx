@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import { BlockStack, List, Text } from "@shopify/polaris";
+import { NetworkStatus, gql, useQuery } from "@apollo/client";
+import { BlockStack, Button, List, Text } from "@shopify/polaris";
 
 const GET_MOVIES = gql`
   query ListMovies {
@@ -10,14 +10,16 @@ const GET_MOVIES = gql`
 `;
 
 export function Home() {
-  const { loading, error, data } = useQuery<{ movies: { title: string }[] }>(
-    GET_MOVIES,
-    {
-      fetchPolicy: "network-only",
-    },
-  );
+  const { loading, error, data, refetch, networkStatus } = useQuery<{
+    movies: { title: string }[];
+  }>(GET_MOVIES, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+  });
 
-  if (loading) return <p>Loading...</p>;
+  const isRefreshing = networkStatus === NetworkStatus.refetch;
+
+  if (loading && !isRefreshing) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
   if (!data) {
@@ -32,11 +34,20 @@ export function Home() {
         Hello Shop 💳
       </Text>
 
+      <Button
+        onClick={() => {
+          refetch();
+        }}
+      >
+        Refresh
+      </Button>
+
       <List type="bullet">
         {movies.map((movie) => {
           return <List.Item key={movie.title}>{movie.title}</List.Item>;
         })}
       </List>
+      {isRefreshing && <Text as="p">Refreshing</Text>}
     </BlockStack>
   );
 }
