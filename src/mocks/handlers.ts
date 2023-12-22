@@ -31,4 +31,21 @@ export const handlers = [
       },
     });
   }),
+
+  graphql.mutation("AddMovie", async () => {
+    await sleep(100);
+
+    // Generate sample title using faker
+    const newMovie = {
+      title: faker.lorem.words(),
+      id: movies.length + 1,
+    };
+    movies.push(newMovie);
+
+    return HttpResponse.json({
+      data: {
+        newMovie,
+      },
+    });
+  }),
 ];
