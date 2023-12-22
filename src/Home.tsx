@@ -18,8 +18,10 @@ const GET_MOVIES = gql`
 
 const ADD_MOVIE = gql`
   mutation AddMovie {
-    id
-    title
+    newMovie {
+      id
+      title
+    }
   }
 `;
 
@@ -31,7 +33,7 @@ export function Home() {
     notifyOnNetworkStatusChange: true,
   });
 
-  const [addMovie] = useMutation(ADD_MOVIE, {
+  const [addMovie, { loading: addMovieLoading }] = useMutation(ADD_MOVIE, {
     refetchQueries: [GET_MOVIES],
   });
 
@@ -66,6 +68,7 @@ export function Home() {
         Refresh
       </Button>
       {isRefreshing && <Text as="p">Refreshing</Text>}
+      {addMovieLoading && <Text as="p">Adding movie</Text>}
 
       <List type="bullet">
         {data &&
