@@ -1,4 +1,10 @@
-import { NetworkStatus, gql, useApolloClient, useQuery } from "@apollo/client";
+import {
+  NetworkStatus,
+  gql,
+  useApolloClient,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 import { BlockStack, Button, List, Text } from "@shopify/polaris";
 
 const GET_MOVIES = gql`
@@ -10,12 +16,23 @@ const GET_MOVIES = gql`
   }
 `;
 
+const ADD_MOVIE = gql`
+  mutation AddMovie {
+    id
+    title
+  }
+`;
+
 export function Home() {
   const { loading, error, data, refetch, networkStatus } = useQuery<{
     movies: { title: string }[];
   }>(GET_MOVIES, {
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
+  });
+
+  const [addMovie] = useMutation(ADD_MOVIE, {
+    refetchQueries: [GET_MOVIES],
   });
 
   const isRefreshing = networkStatus === NetworkStatus.refetch;
@@ -32,6 +49,16 @@ export function Home() {
       <Text as="h1" variant="headingLg">
         Hello Shop 💳
       </Text>
+
+      <Button
+        onClick={async () => {
+          const newMovie = await addMovie();
+
+          console.log("newMovie", newMovie);
+        }}
+      >
+        Add Movie
+      </Button>
 
       <Button
         onClick={() => {
