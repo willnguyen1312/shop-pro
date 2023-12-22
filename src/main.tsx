@@ -1,7 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { About } from "./About.tsx";
+import { Home } from "./Home.tsx";
+import { Root } from "./Root.tsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+    ],
+  },
+]);
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== "development") {
@@ -18,7 +37,7 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <App />
-    </React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>,
   );
 });

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import "./App.css";
 
-function App() {
+export function Home() {
   useEffect(() => {
     fetch(new URL("/graphql", location.href), {
       method: "POST",
@@ -30,5 +29,3 @@ function App() {
     </>
   );
 }
-
-export default App;
