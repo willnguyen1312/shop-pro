@@ -5,6 +5,7 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { PolarisTestProvider } from "@shopify/polaris";
+import "@testing-library/jest-dom";
 import {
   render,
   screen,
