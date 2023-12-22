@@ -51,4 +51,9 @@ test("Home component should render expectedly", async () => {
   await waitForElementToBeRemoved(() => screen.getByText("Refreshing"));
 
   expect(screen.getAllByRole("listitem").length).toBe(5);
+
+  const addNewMovieButton = screen.getByRole("button", { name: "Add Movie" });
+  await user.click(addNewMovieButton);
+
+  await screen.findByText("Total count: 7");
 });
