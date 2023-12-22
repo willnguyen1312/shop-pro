@@ -26,8 +26,6 @@ export function Home() {
     return null;
   }
 
-  const { movies } = data;
-
   return (
     <BlockStack gap="400">
       <Text as="h1" variant="headingLg">
@@ -41,13 +39,27 @@ export function Home() {
       >
         Refresh
       </Button>
+      {isRefreshing && <Text as="p">Refreshing</Text>}
 
       <List type="bullet">
-        {movies.map((movie) => {
-          return <List.Item key={movie.title}>{movie.title}</List.Item>;
-        })}
+        {data &&
+          data.movies.map((movie) => {
+            return <List.Item key={movie.title}>{movie.title}</List.Item>;
+          })}
       </List>
-      {isRefreshing && <Text as="p">Refreshing</Text>}
+
+      <Child />
     </BlockStack>
   );
+}
+
+function Child() {
+  const { data } = useQuery<{
+    movies: { title: string }[];
+  }>(GET_MOVIES, {
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
+  });
+
+  return data ? <Text as="p">Total count: {data.movies.length}</Text> : null;
 }
