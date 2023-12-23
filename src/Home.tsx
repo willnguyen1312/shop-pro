@@ -1,10 +1,4 @@
-import {
-  NetworkStatus,
-  gql,
-  useApolloClient,
-  useMutation,
-  useQuery,
-} from "@apollo/client";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { BlockStack, Button, List, Text } from "@shopify/polaris";
 
 const GET_MOVIES = gql`
@@ -26,25 +20,18 @@ const ADD_MOVIE = gql`
 `;
 
 export function Home() {
-  const { loading, error, data, refetch, networkStatus } = useQuery<{
+  const { loading, error, data } = useQuery<{
     movies: { title: string }[];
   }>(GET_MOVIES, {
     fetchPolicy: "network-only",
-    notifyOnNetworkStatusChange: true,
   });
 
   const [addMovie, { loading: addMovieLoading }] = useMutation(ADD_MOVIE, {
     refetchQueries: [GET_MOVIES],
   });
 
-  const isRefreshing = networkStatus === NetworkStatus.refetch;
-
-  if (loading && !isRefreshing) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
-
-  if (!data) {
-    return null;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <BlockStack gap="400">
@@ -59,15 +46,6 @@ export function Home() {
       >
         Add Movie
       </Button>
-
-      <Button
-        onClick={() => {
-          refetch();
-        }}
-      >
-        Refresh
-      </Button>
-      {isRefreshing && <Text as="p">Refreshing</Text>}
       {addMovieLoading && <Text as="p">Adding movie</Text>}
 
       <List type="bullet">
@@ -83,13 +61,6 @@ export function Home() {
 }
 
 function Child() {
-  // const { data } = useQuery<{
-  //   movies: { title: string }[];
-  // }>(GET_MOVIES, {
-  //   fetchPolicy: "network-only",
-  //   notifyOnNetworkStatusChange: true,
-  // });
-
   const client = useApolloClient();
   const data = client.readQuery<{
     movies: { title: string }[];

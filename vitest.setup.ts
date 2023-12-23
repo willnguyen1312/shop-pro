@@ -1,3 +1,5 @@
+import { destroyAll } from "@shopify/react-testing";
+import "@shopify/react-testing/matchers";
 import "@testing-library/jest-dom";
 import { afterAll, afterEach, beforeAll } from "vitest";
 import { server } from "./src/mocks/node";
@@ -8,6 +10,7 @@ beforeAll(() => {
 
 afterEach(() => {
   server.resetHandlers();
+  destroyAll();
 });
 
 afterAll(() => {

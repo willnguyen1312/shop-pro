@@ -16,15 +16,8 @@ const movies = [
   },
 ];
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const handlers = [
   graphql.query("ListMovies", async () => {
-    await sleep(100);
-
-    // Generate sample title using faker
-    const title = faker.lorem.words();
-    movies.push({ title, id: movies.length + 1 });
     return HttpResponse.json({
       data: {
         movies,
@@ -32,10 +25,17 @@ export const handlers = [
     });
   }),
 
-  graphql.mutation("AddMovie", async () => {
-    await sleep(100);
+  // graphql.query("ListMovies", () => {
+  //   return HttpResponse.json({
+  //     errors: [
+  //       {
+  //         message: `Cannot succeed!`,
+  //       },
+  //     ],
+  //   });
+  // }),
 
-    // Generate sample title using faker
+  graphql.mutation("AddMovie", async () => {
     const newMovie = {
       title: faker.lorem.words(),
       id: movies.length + 1,
