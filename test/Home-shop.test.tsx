@@ -27,7 +27,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>,
+    </ApolloProvider>
   );
 }
 

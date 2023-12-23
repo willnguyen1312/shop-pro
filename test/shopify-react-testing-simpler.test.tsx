@@ -2,7 +2,7 @@ import { expect, test, vi } from "vitest";
 import { mount } from "@shopify/react-testing";
 import React from "react";
 
-const App = () => {
+export const App = () => {
   const [counter, setCounter] = React.useState(0);
 
   const asyncIncrement = async () => {
