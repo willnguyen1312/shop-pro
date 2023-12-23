@@ -13,9 +13,8 @@ import {
 } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { HttpResponse, graphql } from "msw";
-import { beforeEach } from "node:test";
 import React from "react";
-import { expect, test } from "vitest";
+import { expect, test, describe } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
@@ -34,48 +33,46 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>,
+    </ApolloProvider>
   );
 }
 
-beforeEach(() => {
-  server.resetHandlers();
-});
+describe("Home component", () => {
+  test("Home component should render successfully on happy case", async () => {
+    renderApp();
 
-test("Home component should render successfully on error case", async () => {
-  server.use(
-    graphql.query("ListMovies", () => {
-      return HttpResponse.json({
-        errors: [
-          {
-            message: `Cannot succeed!`,
-          },
-        ],
-      });
-    }),
-  );
+    const user = userEvent.setup();
+    //   Wait for the loading indicator to disappear
+    await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
 
-  renderApp();
+    expect(screen.queryByText("The Matrix")).toBeInTheDocument();
 
-  // Wait for the loading indicator to disappear
-  await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
+    expect(screen.getAllByRole("listitem").length).toBe(3);
 
-  expect(screen.queryByText("Error: Cannot succeed!")).toBeInTheDocument();
-});
+    const addNewMovieButton = screen.getByRole("button", { name: "Add Movie" });
+    await user.click(addNewMovieButton);
 
-test("Home component should render successfully on happy case", async () => {
-  renderApp();
+    await screen.findByText("Total count: 4");
+  });
 
-  const user = userEvent.setup();
-  //   Wait for the loading indicator to disappear
-  await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
+  test("Home component should render successfully on error case", async () => {
+    server.use(
+      graphql.query("ListMovies", () => {
+        return HttpResponse.json({
+          errors: [
+            {
+              message: `Cannot succeed!`,
+            },
+          ],
+        });
+      })
+    );
 
-  expect(screen.queryByText("The Matrix")).toBeInTheDocument();
+    renderApp();
 
-  expect(screen.getAllByRole("listitem").length).toBe(3);
+    // Wait for the loading indicator to disappear
+    await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
 
-  const addNewMovieButton = screen.getByRole("button", { name: "Add Movie" });
-  await user.click(addNewMovieButton);
-
-  await screen.findByText("Total count: 4");
+    expect(screen.queryByText("Error: Cannot succeed!")).toBeInTheDocument();
+  });
 });
