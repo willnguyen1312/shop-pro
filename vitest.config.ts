@@ -13,6 +13,7 @@ export default mergeConfig(
       setupFiles: ["./vitest.setup.ts"],
       globals: true,
       reporters: ["html", "basic"],
+      restoreMocks: true,
     },
-  }),
+  })
 );

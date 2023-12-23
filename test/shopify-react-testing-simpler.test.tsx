@@ -1,5 +1,6 @@
 import { expect, test, vi } from "vitest";
 import { mount } from "@shopify/react-testing";
+import "@shopify/react-testing/matchers";
 import React from "react";
 
 export const App = () => {
