@@ -30,14 +30,18 @@ export function Home() {
     refetchQueries: [GET_MOVIES],
   });
 
-  if (loading) return <p>Loading...</p>;
+  // if (loading) return <Text as="p">Loading...</Text>;
   if (error) return <p>Error: {error.message}</p>;
+
+  console.log("data", data);
 
   return (
     <BlockStack gap="400">
       <Text as="h1" variant="headingLg">
         Hello Shop 💳
       </Text>
+
+      {loading && <Text as="p">Loading...</Text>}
 
       <Button
         onClick={async () => {

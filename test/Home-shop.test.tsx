@@ -4,13 +4,14 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { PolarisTestProvider } from "@shopify/polaris";
+import { PolarisTestProvider, BlockStack, Text } from "@shopify/polaris";
 import { mount } from "@shopify/react-testing";
 import "@shopify/react-testing/matchers";
 import "@testing-library/jest-dom";
 import React from "react";
 import { expect, test } from "vitest";
 import { Home } from "../src/Home";
+import { sleep } from "../utils";
 
 const link = new HttpLink({
   uri: "http://localhost:5173/graphql",
@@ -31,10 +32,16 @@ function renderApp() {
   );
 }
 
-test("Home component should render loading on first load", async () => {
+test.only("Home component should render loading on first load", async () => {
   const wrapper = renderApp();
 
-  expect(wrapper).toContainReactComponentTimes("p", 1, {
+  expect(wrapper).toContainReactComponentTimes(Text, 1, {
     children: "Loading...",
   });
+
+  await sleep(1000);
+
+  const container = wrapper.find(BlockStack);
+
+  console.log("container", container?.html());
 });
