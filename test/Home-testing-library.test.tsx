@@ -34,7 +34,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 }
 
@@ -52,7 +52,7 @@ test("Home component should render successfully on error case", async () => {
           },
         ],
       });
-    })
+    }),
   );
 
   renderApp();

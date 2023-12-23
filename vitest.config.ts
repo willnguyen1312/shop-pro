@@ -14,5 +14,5 @@ export default mergeConfig(
       globals: true,
       reporters: ["html", "basic"],
     },
-  })
+  }),
 );
