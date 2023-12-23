@@ -39,7 +39,7 @@ test.only("Home component should render loading on first load", async () => {
     children: "Loading...",
   });
 
-  await sleep(1000);
+  await sleep(100);
 
   const container = wrapper.find(BlockStack);
 

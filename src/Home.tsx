@@ -33,8 +33,6 @@ export function Home() {
   // if (loading) return <Text as="p">Loading...</Text>;
   if (error) return <p>Error: {error.message}</p>;
 
-  console.log("data", data);
-
   return (
     <BlockStack gap="400">
       <Text as="h1" variant="headingLg">
