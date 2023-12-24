@@ -1,9 +1,9 @@
-import { expect, it, test, vi } from "vitest";
 import { mount } from "@shopify/react-testing";
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import "@shopify/react-testing/matchers";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import { expect, it, test, vi } from "vitest";
 
 vi.spyOn(console, "error").mockImplementation(() => {});
 
@@ -22,15 +22,26 @@ export const App = () => {
 test("it should rock like a charm", async () => {
   vi.useFakeTimers();
   const wrapper = mount(<App />);
-
-  expect(wrapper.find("p")).toContainReactText("Loading");
+  expect(wrapper.html()).toMatchInlineSnapshot(`"<div><p>Loading</p></div>"`);
+  expect(wrapper.debug()).toMatchInlineSnapshot(`
+    "<App>
+      <div>
+        <p />
+      </div>
+    </App>"
+  `);
 
   await vi.runAllTimersAsync();
 
   //   🐛 Buggy because it returns <p>Loading</p> instead of <h1>Loaded</h1>
   expect(wrapper.html()).toMatchInlineSnapshot(`"<div><h1>Loaded</h1></div>"`);
-  expect(wrapper.find("h1")).toMatchInlineSnapshot(`null`);
-  expect(wrapper.find("p")?.html()).toMatchInlineSnapshot(`"<p>Loading</p>"`);
+  expect(wrapper.debug()).toMatchInlineSnapshot(`
+    "<App>
+      <div>
+        <p />
+      </div>
+    </App>"
+  `);
 });
 
 it("should not be a problems with testing-library", async () => {

@@ -4,7 +4,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { PolarisTestProvider, BlockStack, Text } from "@shopify/polaris";
+import { BlockStack, PolarisTestProvider, Text } from "@shopify/polaris";
 import { mount } from "@shopify/react-testing";
 import "@shopify/react-testing/matchers";
 import "@testing-library/jest-dom";
@@ -32,7 +32,7 @@ function renderApp() {
   );
 }
 
-test.only("Home component should render loading on first load", async () => {
+test("Home component should render loading on first load", async () => {
   const wrapper = renderApp();
 
   expect(wrapper).toContainReactComponentTimes(Text, 1, {

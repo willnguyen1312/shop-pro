@@ -62,18 +62,36 @@ export function Home() {
   );
 }
 
+const ChildQuery = gql`
+  query ListMovies {
+    movies {
+      id
+    }
+  }
+`;
+
+console.log(
+  "ChildQuery",
+  gql`
+    query ShippingLabelPurchaseSessionByUuid($uuid: String!) {
+      shippingLabelPurchaseSession(uuid: $uuid) {
+        id
+        createAt
+        settings
+        location {
+          id
+        }
+      }
+    }
+  `,
+);
+
 function Child() {
   const client = useApolloClient();
   const data = client.readQuery<{
     movies: { title: string }[];
   }>({
-    query: gql`
-      query ListMovies {
-        movies {
-          id
-        }
-      }
-    `,
+    query: ChildQuery,
   });
 
   return data ? <Text as="p">Total count: {data.movies.length}</Text> : null;
