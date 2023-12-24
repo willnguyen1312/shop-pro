@@ -14,7 +14,7 @@ import {
 import { userEvent } from "@testing-library/user-event";
 import { HttpResponse, graphql } from "msw";
 import React from "react";
-import { expect, test, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
@@ -45,7 +45,7 @@ describe("Home component", () => {
     //   Wait for the loading indicator to disappear
     await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
 
-    expect(screen.queryByText("The Matrix")).toBeInTheDocument();
+    expect(screen.queryByText(/Movie 1/i)).toBeInTheDocument();
 
     expect(screen.getAllByRole("listitem").length).toBe(3);
 

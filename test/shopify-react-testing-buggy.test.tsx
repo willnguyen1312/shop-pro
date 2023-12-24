@@ -32,6 +32,7 @@ test("it should rock like a charm", async () => {
   `);
 
   await vi.runAllTimersAsync();
+  vi.useRealTimers();
 
   //   🐛 Buggy because it returns <p>Loading</p> instead of <h1>Loaded</h1>
   expect(wrapper.html()).toMatchInlineSnapshot(`"<div><h1>Loaded</h1></div>"`);
@@ -50,6 +51,7 @@ it("should not be a problems with testing-library", async () => {
 
   expect(screen.getByText("Loading")).toBeInTheDocument();
   await vi.runAllTimersAsync();
+  vi.useRealTimers();
 
   expect(screen.getByText("Loaded")).toBeInTheDocument();
 });
@@ -96,13 +98,14 @@ it("is not very interactive", async () => {
   expect(wrapper.find("p")).toContainReactText("Value: 0");
   wrapper.find("button")?.trigger("onClick");
   expect(wrapper.html()).toMatchInlineSnapshot(
-    `"<div><button>Click me</button><p>Value: 0</p></div>"`
+    `"<div><button>Click me</button><p>Value: 0</p></div>"`,
   );
 
   await vi.runAllTimersAsync();
+  vi.useRealTimers();
 
   expect(wrapper.html()).toMatchInlineSnapshot(
-    `"<div><button>Click me</button><p>Value: 0</p></div>"`
+    `"<div><button>Click me</button><p>Value: 0</p></div>"`,
   );
 });
 
@@ -116,6 +119,7 @@ it("fine with testing-library", async () => {
   screen.getByRole("button").click();
 
   await vi.runAllTimersAsync();
+  vi.useRealTimers();
 
   expect(screen.getByText("Value: 1")).toBeInTheDocument();
 });

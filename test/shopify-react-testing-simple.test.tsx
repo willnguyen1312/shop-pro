@@ -1,7 +1,7 @@
-import { expect, test, vi } from "vitest";
 import { mount } from "@shopify/react-testing";
 import "@shopify/react-testing/matchers";
 import React from "react";
+import { expect, test, vi } from "vitest";
 
 export const App = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -25,8 +25,8 @@ test("it should rock like a charm", async () => {
 
   expect(wrapper.find("p")).toContainReactText("Loading");
 
-  // sleep 200ms
-  vi.runAllTimers();
+  await vi.runAllTimersAsync();
 
   expect(wrapper.find("p")).toContainReactText("Loaded");
+  vi.useRealTimers();
 });

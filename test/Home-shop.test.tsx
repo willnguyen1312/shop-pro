@@ -4,7 +4,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
-import { BlockStack, PolarisTestProvider, Text } from "@shopify/polaris";
+import { PolarisTestProvider, Text } from "@shopify/polaris";
 import { mount } from "@shopify/react-testing";
 import "@shopify/react-testing/matchers";
 import "@testing-library/jest-dom";
@@ -28,7 +28,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 }
 
@@ -41,7 +41,7 @@ test("Home component should render loading on first load", async () => {
 
   await sleep(100);
 
-  const container = wrapper.find(BlockStack);
+  // const container = wrapper.find(BlockStack);
 
-  console.log("container", container?.html());
+  // console.log("container", container?.html());
 });

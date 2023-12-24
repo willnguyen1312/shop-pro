@@ -70,22 +70,6 @@ const ChildQuery = gql`
   }
 `;
 
-console.log(
-  "ChildQuery",
-  gql`
-    query ShippingLabelPurchaseSessionByUuid($uuid: String!) {
-      shippingLabelPurchaseSession(uuid: $uuid) {
-        id
-        createAt
-        settings
-        location {
-          id
-        }
-      }
-    }
-  `,
-);
-
 function Child() {
   const client = useApolloClient();
   const data = client.readQuery<{

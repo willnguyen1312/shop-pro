@@ -1,7 +1,7 @@
-import { expect, test, vi } from "vitest";
 import { mount } from "@shopify/react-testing";
 import "@shopify/react-testing/matchers";
 import React from "react";
+import { expect, test, vi } from "vitest";
 
 export const App = () => {
   const [counter, setCounter] = React.useState(0);
@@ -38,4 +38,5 @@ test("it should pass", async () => {
   await vi.runAllTimersAsync();
 
   expect(textElement?.text()).toBe("Value: 1");
+  vi.useRealTimers();
 });

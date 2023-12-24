@@ -1,17 +1,17 @@
 import { faker } from "@faker-js/faker";
-import { graphql, HttpResponse } from "msw";
+import { graphql, http, HttpResponse } from "msw";
 
 const movies = [
   {
-    title: "The Lord of The Rings",
+    title: "Movie 1",
     id: 1,
   },
   {
-    title: "The Matrix",
+    title: "Movie 2",
     id: 2,
   },
   {
-    title: "Star Wars: The Empire Strikes Back",
+    title: "Movie 3",
     id: 3,
   },
 ];
@@ -25,15 +25,13 @@ export const handlers = [
     });
   }),
 
-  // graphql.query("ListMovies", () => {
-  //   return HttpResponse.json({
-  //     errors: [
-  //       {
-  //         message: `Cannot succeed!`,
-  //       },
-  //     ],
-  //   });
-  // }),
+  http.get("/api/counter", () => {
+    return HttpResponse.json({
+      data: {
+        counter: 1,
+      },
+    });
+  }),
 
   graphql.mutation("AddMovie", async () => {
     const newMovie = {

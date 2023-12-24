@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { ApiData } from "./Data.tsx";
 import { Root } from "./Root.tsx";
 
 const Home = React.lazy(() =>
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             <About />
           </React.Suspense>
         ),
+      },
+      {
+        path: "data",
+        element: <ApiData />,
       },
     ],
   },
