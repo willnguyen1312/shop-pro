@@ -1,9 +1,10 @@
 import { mount } from "@shopify/react-testing";
-import { render, screen } from "@testing-library/react";
-import React from "react";
-import { describe, expect, it } from "vitest";
+import { act, render, screen } from "@testing-library/react";
 
-const useCount = () => {
+import React from "react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const Playground = () => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
@@ -11,12 +12,6 @@ const useCount = () => {
       setCount(1);
     }, 100);
   }, []);
-
-  return { count };
-};
-
-const Playground = () => {
-  const { count } = useCount();
 
   return (
     <div>{count === 0 ? <p>Value: {count}</p> : <h1>Value: {count}</h1>}</div>
@@ -34,19 +29,28 @@ describe("Playground", () => {
       `"<div><h1>Value: 1</h1></div>"`
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
-      "<Playground>
-        <div>
-          <p />
-        </div>
-      </Playground>"
-    `);
+        "<Playground>
+          <div>
+            <p />
+          </div>
+        </Playground>"
+      `);
   });
 });
 
 describe("Playground with rtl", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   it("should render correctly", async () => {
     render(<Playground />);
 
-    await screen.findByText("Value: 1");
+    act(() => vi.runAllTimers());
+
+    screen.getByText("Value: 1");
   });
 });
