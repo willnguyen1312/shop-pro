@@ -19,4 +19,21 @@ test("adds 1 + 2 to equal 3", async () => {
   const a = await getResultPromise; // Now get the result
 
   expect(a).toBe(100);
+  vi.useRealTimers();
+});
+
+test("fake setTimeout", async () => {
+  vi.useFakeTimers();
+
+  let a = 10;
+
+  setTimeout(() => {
+    a = 50;
+  }, 4000);
+
+  await vi.runAllTimersAsync();
+
+  expect(a).toBe(50);
+
+  vi.useRealTimers();
 });
