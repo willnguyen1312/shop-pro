@@ -1,18 +1,16 @@
 import { mount } from "@shopify/react-testing";
 import React from "react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ApiData, ApiDataWithoutCustomHook, AsyncData } from "../src/Data";
-
-// FAKE TIMERS WILL BLOCK THE OTHER TESTS 🙈
 
 describe("AsyncData component", () => {
   it("should render", async () => {
-    // vi.useFakeTimers();
+    vi.useFakeTimers();
     const wrapper = mount(<AsyncData />);
     const button = wrapper.find("button");
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<div><button>Click me</button></div>"`,
+      `"<div><button>Click me</button></div>"`
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<AsyncData>
@@ -24,12 +22,11 @@ describe("AsyncData component", () => {
 
     button?.trigger("onClick");
 
-    // await vi.runAllTimersAsync();
+    await vi.runAllTimersAsync();
     // OR
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<div><button>Click me</button><p>Value: 1</p></div>"`,
+      `"<div><button>Click me</button><p>Value: 1</p></div>"`
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<AsyncData>
@@ -38,9 +35,9 @@ describe("AsyncData component", () => {
         </div>
       </AsyncData>"
     `);
-  });
 
-  // vi.useRealTimers();
+    vi.useRealTimers();
+  });
 });
 
 describe("ApiData component", () => {
@@ -72,7 +69,7 @@ describe("ApiDataWithoutCustomHook component", () => {
     const button = wrapper.find("button");
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<h1>Value: 0</h1><button>Click</button>"`,
+      `"<h1>Value: 0</h1><button>Click</button>"`
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<ApiDataWithoutCustomHook>
@@ -87,7 +84,7 @@ describe("ApiDataWithoutCustomHook component", () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<h1>Value: 1</h1><button>Click</button>"`,
+      `"<h1>Value: 1</h1><button>Click</button>"`
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<ApiDataWithoutCustomHook>
