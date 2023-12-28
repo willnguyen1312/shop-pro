@@ -1,39 +1,46 @@
-import { expect, test, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-async function getResult() {
-  let a = 0;
-  await new Promise((resolve) => {
-    setTimeout(resolve, 50000);
-    a = 100;
+import { getLatest, messages } from "./sample";
+
+describe("reading messages", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  return a;
-}
+  it("should get the latest message with a spy", () => {
+    const spy = vi.spyOn(messages, "getLatest");
+    expect(spy.getMockName()).toEqual("getLatest");
 
-test("adds 1 + 2 to equal 3", async () => {
-  vi.useFakeTimers();
+    expect(messages.getLatest()).toEqual(
+      messages.items[messages.items.length - 1],
+    );
 
-  const getResultPromise = getResult(); // Start the promise
-  await vi.runAllTimersAsync(); // Advance all timers
+    expect(spy).toHaveBeenCalledTimes(1);
 
-  const a = await getResultPromise; // Now get the result
+    spy.mockImplementationOnce(() => ({
+      message: "Sample",
+      from: "Sample",
+    }));
+    expect(messages.getLatest()).toEqual({
+      message: "Sample",
+      from: "Sample",
+    });
 
-  expect(a).toBe(100);
-  vi.useRealTimers();
-});
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
 
-test("fake setTimeout", async () => {
-  vi.useFakeTimers();
+  it("should get with a mock", () => {
+    const mock = vi.fn().mockImplementation(getLatest);
 
-  let a = 10;
+    expect(mock()).toEqual(messages.items[messages.items.length - 1]);
+    expect(mock).toHaveBeenCalledTimes(1);
 
-  setTimeout(() => {
-    a = 50;
-  }, 4000);
+    mock.mockImplementationOnce(() => "access-restricted");
+    expect(mock()).toEqual("access-restricted");
 
-  await vi.runAllTimersAsync();
+    expect(mock).toHaveBeenCalledTimes(2);
 
-  expect(a).toBe(50);
-
-  vi.useRealTimers();
+    expect(mock()).toEqual(messages.items[messages.items.length - 1]);
+    expect(mock).toHaveBeenCalledTimes(3);
+  });
 });
