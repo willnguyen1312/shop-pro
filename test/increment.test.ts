@@ -14,7 +14,7 @@ increment(1) === 100;
 increment(30) === 100;
 
 // this is not hoisted, so other import will return unmocked module
-vi.unmock("./increment");
+vi.doUnmock("./increment");
 
 // this STILL returns 100, because `vi.doUnmock` doesn't reevaluate a module
 increment(1) === 100;
@@ -22,8 +22,8 @@ increment(30) === 100;
 
 it("should work", async () => {
   // the next import is unmocked, now `increment` is the original function that returns count + 1
-  //   const { increment: unmockedIncrement } = await import("./increment.js");
+  const { increment: unmockedIncrement } = await import("./increment");
 
-  expect(increment(1)).toBe(2);
-  //   unmockedIncrement(30) === 31;
+  expect(unmockedIncrement(1) === 2).toBeTruthy();
+  expect(unmockedIncrement(30) === 31).toBeTruthy();
 });
