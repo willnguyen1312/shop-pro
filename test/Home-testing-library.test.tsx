@@ -13,22 +13,25 @@ import { describe, expect, test, vi } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
+const { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, useQuery } =
+  Apollo;
+
 function renderApp() {
-  const link = new Apollo.HttpLink({
+  const link = new HttpLink({
     uri: "http://localhost:5173/graphql",
   });
 
-  const client = new Apollo.ApolloClient({
+  const client = new ApolloClient({
     link,
-    cache: new Apollo.InMemoryCache(),
+    cache: new InMemoryCache(),
   });
 
   render(
-    <Apollo.ApolloProvider client={client}>
+    <ApolloProvider client={client}>
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </Apollo.ApolloProvider>
+    </ApolloProvider>
   );
 }
 
@@ -38,7 +41,7 @@ describe("Home component", () => {
       error: {
         message: "Oh no!",
       },
-    } as ReturnType<typeof Apollo.useQuery>);
+    } as ReturnType<typeof useQuery>);
 
     renderApp();
     await screen.findByText(/Error: Oh no!/i);
