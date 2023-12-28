@@ -35,7 +35,7 @@ test("integration flow", async () => {
           movies,
         },
       });
-    })
+    }),
   );
 
   const routes = [
@@ -65,7 +65,7 @@ test("integration flow", async () => {
       <PolarisTestProvider>
         <RouterProvider router={router} />
       </PolarisTestProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 
   expect(screen.getByText(/Loading.../i)).toBeInTheDocument();

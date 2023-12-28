@@ -33,7 +33,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>
+    </ApolloProvider>,
   );
 }
 
@@ -65,7 +65,7 @@ describe("Home component", () => {
             },
           ],
         });
-      })
+      }),
     );
 
     renderApp();

@@ -27,7 +27,7 @@ const useData = () => {
         return;
       }
       const result = await fetch(new URL("/api/counter", location.href)).then(
-        (res) => res.json()
+        (res) => res.json(),
       );
       setCounter(result.data.counter);
     }
@@ -56,7 +56,7 @@ export const ApiDataWithoutCustomHook = () => {
 
   async function fetchData() {
     const result = await fetch(new URL("/api/counter", location.href)).then(
-      (res) => res.json()
+      (res) => res.json(),
     );
     setCounter(result.data.counter);
   }

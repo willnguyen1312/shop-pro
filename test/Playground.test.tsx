@@ -26,7 +26,7 @@ describe("Playground", () => {
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<div><h1>Value: 1</h1></div>"`
+      `"<div><h1>Value: 1</h1></div>"`,
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
         "<Playground>
@@ -86,7 +86,7 @@ it("should update the memory tree", async () => {
   await new Promise((resolve) => setTimeout(resolve, 200));
 
   expect(wrapper.html()).toMatchInlineSnapshot(
-    `"<div><button>Click me</button><p>Value: 1</p></div>"`
+    `"<div><button>Click me</button><p>Value: 1</p></div>"`,
   );
 
   expect(wrapper).toContainReactComponent("p", {

@@ -8,10 +8,10 @@ import { ApiData } from "./Data.tsx";
 import { Root } from "./Root.tsx";
 
 const Home = React.lazy(() =>
-  import("./Home.tsx").then((m) => ({ default: m.Home }))
+  import("./Home.tsx").then((m) => ({ default: m.Home })),
 );
 const About = React.lazy(() =>
-  import("./About.tsx").then((m) => ({ default: m.About }))
+  import("./About.tsx").then((m) => ({ default: m.About })),
 );
 
 const router = createBrowserRouter([
@@ -61,6 +61,6 @@ enableMocking().then(() => {
       <Page>
         <RouterProvider router={router} />
       </Page>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 });
