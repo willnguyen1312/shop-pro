@@ -23,14 +23,14 @@ export function Home() {
   const { loading, error, data } = useQuery<{
     movies: { title: string }[];
   }>(GET_MOVIES, {
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
 
   const [addMovie, { loading: addMovieLoading }] = useMutation(ADD_MOVIE, {
     refetchQueries: [GET_MOVIES],
   });
 
-  // if (loading) return <Text as="p">Loading...</Text>;
+  if (loading) return <Text as="p">Loading...</Text>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
@@ -38,8 +38,6 @@ export function Home() {
       <Text as="h1" variant="headingLg">
         Hello Shop 💳
       </Text>
-
-      {loading && <Text as="p">Loading...</Text>}
 
       <Button
         onClick={async () => {
@@ -57,7 +55,8 @@ export function Home() {
           })}
       </List>
 
-      <Child />
+      {/* <Child /> */}
+      {data && <Text as="p">Total count: {data.movies.length}</Text>}
     </BlockStack>
   );
 }
@@ -70,7 +69,7 @@ const ChildQuery = gql`
   }
 `;
 
-function Child() {
+export function Child() {
   const client = useApolloClient();
   const data = client.readQuery<{
     movies: { title: string }[];

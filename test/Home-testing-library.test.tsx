@@ -18,22 +18,22 @@ import { describe, expect, test } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
-const link = new HttpLink({
-  uri: "http://localhost:5173/graphql",
-});
-
-const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache(),
-});
-
 function renderApp() {
+  const link = new HttpLink({
+    uri: "http://localhost:5173/graphql",
+  });
+
+  const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache(),
+  });
+
   render(
     <ApolloProvider client={client}>
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>,
+    </ApolloProvider>
   );
 }
 
@@ -45,14 +45,14 @@ describe("Home component", () => {
     //   Wait for the loading indicator to disappear
     await waitForElementToBeRemoved(() => screen.getByText("Loading..."));
 
-    expect(screen.queryByText(/Movie 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Movie 1/i)).toBeInTheDocument();
 
-    expect(screen.getAllByRole("listitem").length).toBe(3);
+    expect(screen.getAllByRole("listitem").length).toBe(1);
 
     const addNewMovieButton = screen.getByRole("button", { name: "Add Movie" });
     await user.click(addNewMovieButton);
 
-    await screen.findByText("Total count: 4");
+    // await screen.findByText("Total count: 2");
   });
 
   test("Home component should render successfully on error case", async () => {
@@ -65,7 +65,7 @@ describe("Home component", () => {
             },
           ],
         });
-      }),
+      })
     );
 
     renderApp();

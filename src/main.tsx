@@ -3,14 +3,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { Page } from "@shopify/polaris";
 import { ApiData } from "./Data.tsx";
 import { Root } from "./Root.tsx";
 
 const Home = React.lazy(() =>
-  import("./Home.tsx").then((m) => ({ default: m.Home })),
+  import("./Home.tsx").then((m) => ({ default: m.Home }))
 );
 const About = React.lazy(() =>
-  import("./About.tsx").then((m) => ({ default: m.About })),
+  import("./About.tsx").then((m) => ({ default: m.About }))
 );
 
 const router = createBrowserRouter([
@@ -57,7 +58,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>,
+      <Page>
+        <RouterProvider router={router} />
+      </Page>
+    </React.StrictMode>
   );
 });
