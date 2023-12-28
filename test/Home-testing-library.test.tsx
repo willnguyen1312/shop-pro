@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import * as Apollo from "@apollo/client";
 import { PolarisTestProvider } from "@shopify/polaris";
 import "@testing-library/jest-dom";
 import {
@@ -14,31 +9,57 @@ import {
 import { userEvent } from "@testing-library/user-event";
 import { HttpResponse, graphql } from "msw";
 import React from "react";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
+vi.mock("@apollo/client", async () => {
+  const mod =
+    await vi.importActual<typeof import("@apollo/client")>("@apollo/client");
+  return {
+    ...mod,
+  };
+});
+
 function renderApp() {
-  const link = new HttpLink({
+  const link = new Apollo.HttpLink({
     uri: "http://localhost:5173/graphql",
   });
 
-  const client = new ApolloClient({
+  const client = new Apollo.ApolloClient({
     link,
-    cache: new InMemoryCache(),
+    cache: new Apollo.InMemoryCache(),
   });
 
   render(
-    <ApolloProvider client={client}>
+    <Apollo.ApolloProvider client={client}>
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>,
+    </Apollo.ApolloProvider>,
   );
 }
 
 describe("Home component", () => {
+  test("Home component should work with vi", async () => {
+    vi.spyOn(Apollo, "useQuery").mockReturnValue({
+      error: {
+        message: "Oh no!",
+      },
+    } as ReturnType<typeof Apollo.useQuery>);
+
+    renderApp();
+    await screen.findByText(/Error: Oh no!/i);
+  });
+
   test("Home component should render successfully on happy case", async () => {
+    const apollo =
+      await vi.importActual<typeof import("@apollo/client")>("@apollo/client");
+
+    apollo.useQuery = (
+      await vi.importActual<typeof import("@apollo/client")>("@apollo/client")
+    ).useQuery;
+
     renderApp();
 
     const user = userEvent.setup();
