@@ -37,7 +37,7 @@ function renderApp() {
 
 describe("Home component", () => {
   test("Home component should work with vi", async () => {
-    vi.spyOn(Apollo, "useQuery").mockReturnValue({
+    const mockedUseQuery = vi.spyOn(Apollo, "useQuery").mockReturnValue({
       error: {
         message: "Oh no!",
       },
@@ -45,6 +45,13 @@ describe("Home component", () => {
 
     renderApp();
     await screen.findByText(/Error: Oh no!/i);
+
+    expect(mockedUseQuery).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        fetchPolicy: "cache-and-network",
+      })
+    );
   });
 
   test("Home component should render successfully on happy case", async () => {
