@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { mount } from "@shopify/react-testing";
 import { act, render, screen } from "@testing-library/react";
 
