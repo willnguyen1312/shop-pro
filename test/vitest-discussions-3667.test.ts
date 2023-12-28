@@ -1,5 +1,6 @@
-// Reference - https://github.com/vitest-dev/vitest/discussions/3667
-
+// Reference:
+// https://github.com/vitest-dev/vitest/discussions/3667
+// https://stackoverflow.com/questions/74287452/vitest-mock-modules-function-in-only-one-test-and-use-the-actual-function-in-oth
 import { describe, expect, it, vi } from "vitest";
 import * as stuff from "./vitest-discussions-3667-mock";
 import { getUser } from "./vitest-discussions-3667-no-mock";
