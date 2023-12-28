@@ -13,14 +13,6 @@ import { describe, expect, test, vi } from "vitest";
 import { Home } from "../src/Home";
 import { server } from "../src/mocks/node";
 
-vi.mock("@apollo/client", async () => {
-  const mod =
-    await vi.importActual<typeof import("@apollo/client")>("@apollo/client");
-  return {
-    ...mod,
-  };
-});
-
 function renderApp() {
   const link = new Apollo.HttpLink({
     uri: "http://localhost:5173/graphql",
@@ -36,7 +28,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </Apollo.ApolloProvider>,
+    </Apollo.ApolloProvider>
   );
 }
 
@@ -53,13 +45,6 @@ describe("Home component", () => {
   });
 
   test("Home component should render successfully on happy case", async () => {
-    const apollo =
-      await vi.importActual<typeof import("@apollo/client")>("@apollo/client");
-
-    apollo.useQuery = (
-      await vi.importActual<typeof import("@apollo/client")>("@apollo/client")
-    ).useQuery;
-
     renderApp();
 
     const user = userEvent.setup();
@@ -86,7 +71,7 @@ describe("Home component", () => {
             },
           ],
         });
-      }),
+      })
     );
 
     renderApp();
