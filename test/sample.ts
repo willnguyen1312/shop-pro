@@ -6,3 +6,7 @@ export const messages = {
   items: [{ message: "Simple test message", from: "Testman" }],
   getLatest,
 };
+
+export function callApi() {
+  return "Real";
+}

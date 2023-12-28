@@ -1,18 +1,22 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { getLatest, messages } from "./sample";
+import { callApi, getLatest, messages } from "./sample";
+
+vi.mock("./sample", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("./sample")>();
+  return {
+    ...mod,
+    callApi: vi.fn().mockImplementation(mod.callApi),
+  };
+});
 
 describe("reading messages", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it("should get the latest message with a spy", () => {
     const spy = vi.spyOn(messages, "getLatest");
     expect(spy.getMockName()).toEqual("getLatest");
 
     expect(messages.getLatest()).toEqual(
-      messages.items[messages.items.length - 1],
+      messages.items[messages.items.length - 1]
     );
 
     expect(spy).toHaveBeenCalledTimes(1);
@@ -42,5 +46,17 @@ describe("reading messages", () => {
 
     expect(mock()).toEqual(messages.items[messages.items.length - 1]);
     expect(mock).toHaveBeenCalledTimes(3);
+  });
+
+  it("should work for fake", async () => {
+    vi.mocked(callApi).mockImplementation(() => "Mocked");
+    expect(callApi()).toEqual("Mocked");
+  });
+
+  it("should work for real", async () => {
+    const actual = await vi.importActual<typeof import("./sample")>("./sample");
+    vi.mocked(callApi).mockImplementation(actual.callApi);
+
+    expect(callApi()).toEqual("Real");
   });
 });
