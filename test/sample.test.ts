@@ -6,7 +6,7 @@ vi.mock("./sample", async (importOriginal) => {
   const mod = await importOriginal<typeof import("./sample")>();
   return {
     ...mod,
-    callApi: vi.fn().mockImplementation(mod.callApi),
+    callApi: vi.fn(),
   };
 });
 
@@ -16,7 +16,7 @@ describe("reading messages", () => {
     expect(spy.getMockName()).toEqual("getLatest");
 
     expect(messages.getLatest()).toEqual(
-      messages.items[messages.items.length - 1],
+      messages.items[messages.items.length - 1]
     );
 
     expect(spy).toHaveBeenCalledTimes(1);
