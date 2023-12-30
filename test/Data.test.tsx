@@ -3,10 +3,15 @@ import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { ApiData, ApiDataWithoutCustomHook, AsyncData } from "../src/Data";
 
-describe("AsyncData component", () => {
+describe.only("AsyncData component", () => {
   it("should render", async () => {
     vi.useFakeTimers();
     const wrapper = mount(<AsyncData />);
+
+    // OUTPUT IS HERE 😇
+    // screen.logTestingPlaygroundURL();
+    // console.log(document.body.innerHTML);
+
     const button = wrapper.find("button");
 
     expect(wrapper.html()).toMatchInlineSnapshot(
