@@ -15,7 +15,7 @@ describe.only("AsyncData component", () => {
     const button = wrapper.find("button");
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<div><button>Click me</button></div>"`
+      `"<div><button>Click me</button></div>"`,
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<AsyncData>
@@ -31,7 +31,7 @@ describe.only("AsyncData component", () => {
     // OR
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<div><button>Click me</button><p>Value: 1</p></div>"`
+      `"<div><button>Click me</button><p>Value: 1</p></div>"`,
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<AsyncData>
@@ -74,7 +74,7 @@ describe("ApiDataWithoutCustomHook component", () => {
     const button = wrapper.find("button");
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<h1>Value: 0</h1><button>Click</button>"`
+      `"<h1>Value: 0</h1><button>Click</button>"`,
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<ApiDataWithoutCustomHook>
@@ -89,7 +89,7 @@ describe("ApiDataWithoutCustomHook component", () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<h1>Value: 1</h1><button>Click</button>"`
+      `"<h1>Value: 1</h1><button>Click</button>"`,
     );
     expect(wrapper.debug()).toMatchInlineSnapshot(`
       "<ApiDataWithoutCustomHook>
