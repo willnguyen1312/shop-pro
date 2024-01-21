@@ -18,7 +18,7 @@ const { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, useQuery } =
 
 function renderApp() {
   const link = new HttpLink({
-    uri: "http://localhost:5173/graphql",
+    uri: location.href,
   });
 
   const client = new ApolloClient({
@@ -31,7 +31,7 @@ function renderApp() {
       <PolarisTestProvider>
         <Home />
       </PolarisTestProvider>
-    </ApolloProvider>,
+    </ApolloProvider>
   );
 }
 
@@ -50,7 +50,7 @@ describe("Home component", () => {
       expect.anything(),
       expect.objectContaining({
         fetchPolicy: "cache-and-network",
-      }),
+      })
     );
   });
 
@@ -81,7 +81,7 @@ describe("Home component", () => {
             },
           ],
         });
-      }),
+      })
     );
 
     renderApp();
